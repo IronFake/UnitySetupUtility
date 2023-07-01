@@ -1,0 +1,21 @@
+{
+    "name": "com.storm.[package-name]",
+    "version": "0.1.0",
+    "displayName": "Package Example",
+    "description": "This is an example package",
+    "unity": "2019.1",
+    "unityRelease": "0b5",
+    "dependencies": {
+        "com.[company-name].some-package": "1.0.0"
+    },
+    "keywords": [
+        "keyword1",
+        "keyword2",
+        "keyword3"
+    ],
+    "author": {
+        "name": "Vladimir Kashirin",
+        "email": "https://www.linkedin.com/in/vladimirkashirin/",
+        "url": "https://github.com/IronFake"
+    }
+}
