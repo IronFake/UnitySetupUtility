@@ -1,17 +1,12 @@
 {
-    "name": "com.storm.[package-name]",
+    "name": "com.storm.unitysetuputility",
     "version": "0.1.0",
-    "displayName": "Package Example",
-    "description": "This is an example package",
+    "displayName": "UnitySetupUtility",
+    "description": "Utility for setting up Unity project",
     "unity": "2019.1",
-    "unityRelease": "0b5",
-    "dependencies": {
-        "com.[company-name].some-package": "1.0.0"
-    },
     "keywords": [
-        "keyword1",
-        "keyword2",
-        "keyword3"
+        "utility",
+        "setup"
     ],
     "author": {
         "name": "Vladimir Kashirin",
