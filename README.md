@@ -35,6 +35,16 @@ The **Settings** tab allows you to customize the utility according to your prefe
 - **Gist for Manifest**: Set the default GitHub Gist URL for the manifest.json file. This URL will be used when you click the Download Manifest button in the **General** tab.
 - **Gist for List of Packages**: Specify the Gist files associated with different packages you frequently use. Enter the Gist file name and the corresponding GitHub Gist URL. This information will be used when you add or remove packages using the utility.
 
+### Example Gist with List of Packages
+
+To demonstrate the usage of the Unity Setup Utility, we have created an example [Gist that contains a list of packages](https://gist.github.com/IronFake/07ad9070801dbf3aab326e967683ae32) commonly used in Unity projects.
+
+Template of package: **DisplayName "package-name": "url"**
+
+You can use this Gist as a reference or starting point for your own package lists. Simply copy the Gist URL and paste it into the **Gist Files for Packages** section in the **Settings** tab of the Unity Setup Utility. When you open the utility and click on the **Add Package** button, the packages listed in the Gist will be available for selection.
+
+Feel free to customize the Gist by adding or removing packages according to your project requirements.
+
 Customize the settings in the Settings tab according to your project requirements.
 
 # Contributions
