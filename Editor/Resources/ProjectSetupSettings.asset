@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2a07f329eb41f7a75f3ecde54d355d, type: 3}
   m_Name: ProjectSetupSettings
   m_EditorClassIdentifier: 
-  _folderPaths:
+  _mainFolders:
   - _Project/Art
   - _Project/Prefabs
-  - _Project/Scripts
   - _Project/Scenes
+  - _Project/Scripts
   _manifestGist:
     UserName: IronFake
     Id: e534972ee09ec6f940b3b1a44574d699

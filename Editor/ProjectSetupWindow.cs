@@ -66,9 +66,9 @@ namespace Storm.UnitySetupUtility.Editor
         {
             _windowSerializedObject.Update();
             
-            if (GUILayout.Button("Create Default Folders"))
+            if (GUILayout.Button("Create Main Folders"))
             {
-                Folders.CreateDirectories(_settings.FolderPaths);
+                Folders.CreateDirectories(_settings.MainFolders);
             }
 
             if (GUILayout.Button("Download manifest"))
