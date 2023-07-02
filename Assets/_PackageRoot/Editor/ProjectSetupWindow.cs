@@ -9,7 +9,13 @@ namespace Storm.UnitySetupUtility.Editor
     {
         [SerializeField] private List<PackageInfo> _packagesList = new List<PackageInfo>();
 
-        private SerializedObject _serializedObject;
+        private int _selectedTab;
+        private string[] _tabNames = { "General", "Settings" };
+        
+        private ProjectSetupSettings _settings;
+        private SerializedObject _settingSerializedObject;
+        
+        private SerializedObject _windowSerializedObject;
         private Vector2 _scrollPosition;
 
         [MenuItem("Window/Project Setup Window")]
@@ -20,21 +26,52 @@ namespace Storm.UnitySetupUtility.Editor
 
         private void OnEnable()
         {
+            _settings = Resources.Load<ProjectSetupSettings>("ProjectSetupSettings");
+            _settingSerializedObject = new SerializedObject(_settings);
+            _windowSerializedObject = new SerializedObject(this);
+
             RequestPackages();
-            
-            _serializedObject = new SerializedObject(this);
         }
         
         private void OnGUI()
         {
-            _serializedObject.Update();
-
-            if (GUILayout.Button("Create Default Folders"))
+            DrawTabButtons();
+            switch (_selectedTab)
             {
-                Folders.CreateDirectories("_Project", "Scripts", "Art", "Scenes", "Prefabs");
+                case 0:
+                    DrawGeneralTab();
+                    break;
+                case 1:
+                    DrawSettingsTab();
+                    break;
+            }
+        }
+        
+        private void DrawTabButtons()
+        {
+            GUILayout.BeginHorizontal();
+
+            for (int i = 0; i < _tabNames.Length; i++)
+            {
+                if (GUILayout.Toggle(_selectedTab == i, _tabNames[i], EditorStyles.toolbarButton))
+                {
+                    _selectedTab = i;
+                }
             }
 
-            if (GUILayout.Button("Replace Manifest from gist"))
+            GUILayout.EndHorizontal();
+        }
+        
+        private void DrawGeneralTab()
+        {
+            _windowSerializedObject.Update();
+            
+            if (GUILayout.Button("Create Default Folders"))
+            {
+                Folders.CreateDirectories(_settings.FolderPaths);
+            }
+
+            if (GUILayout.Button("Download manifest"))
             {
                 ReplaceManifest();
             }
@@ -42,7 +79,7 @@ namespace Storm.UnitySetupUtility.Editor
             EditorGUILayout.LabelField("Package List:", EditorStyles.boldLabel);
             _scrollPosition = GUILayout.BeginScrollView(_scrollPosition, GUILayout.ExpandHeight(true));
             
-            var packageListProperty = _serializedObject.FindProperty("_packagesList");
+            var packageListProperty = _windowSerializedObject.FindProperty("_packagesList");
             for (int i = 0; i < packageListProperty.arraySize; i++)
             {
                 EditorGUILayout.BeginVertical(GUI.skin.box);
@@ -57,18 +94,23 @@ namespace Storm.UnitySetupUtility.Editor
             }
 
             GUILayout.EndScrollView();
-            _serializedObject.ApplyModifiedProperties();
+            _windowSerializedObject.ApplyModifiedProperties();
         }
         
+        private void DrawSettingsTab()
+        {
+            EditorUtils.DrawAllProperties(_settingSerializedObject);
+        }
+
         private async Task RequestPackages()
         {
-            _packagesList = await PackageUtils.GetPackagesFromGist("07ad9070801dbf3aab326e967683ae32", "IronFake");
+            _packagesList = await PackageUtils.GetPackagesFromGist(_settings.PackagesGist);
         }
 
 
         private async Task ReplaceManifest()
         {
-            await PackageUtils.ReplaceManifestFromGist("e534972ee09ec6f940b3b1a44574d699", "IronFake");
+            await PackageUtils.ReplaceManifestFromGist(_settings.ManifestGist);
             foreach (var packageInfo in _packagesList)
             {
                 packageInfo.IsUpdated = false;
