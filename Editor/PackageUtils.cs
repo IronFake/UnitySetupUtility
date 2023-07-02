@@ -40,14 +40,6 @@ namespace Storm.UnitySetupUtility.Editor
                 if (request.Status == StatusCode.Success)
                 {
                     isPackageInstalled = request.Result.Any((el) => el.name == packageName);
-                    if (isPackageInstalled)
-                    {
-                        Debug.Log($"Package is installed: " + packageName);
-                    }
-                    else
-                    {
-                        Debug.Log($"Package is not installed: " + packageName);
-                    }
                 }
                 else if (request.Status >= StatusCode.Failure)
                 {
@@ -149,6 +141,11 @@ namespace Storm.UnitySetupUtility.Editor
             }
         }
 
+        public static async Task ReplaceManifestFromGist(GistInfo gistInfo)
+        {
+            await ReplaceManifestFromGist(gistInfo.Id, gistInfo.UserName);
+        }
+
         public static async Task ReplaceManifestFromGist(string id, string user)
         {
             var url = GetGistUrl(id, user);
@@ -161,6 +158,11 @@ namespace Storm.UnitySetupUtility.Editor
             var existing = Path.Combine(Application.dataPath, "../Packages/manifest.json");
             File.WriteAllText(existing, contents);
             Client.Resolve();
+        }
+
+        public static async Task<List<PackageInfo>> GetPackagesFromGist(GistInfo gistInfo)
+        {
+            return await GetPackagesFromGist(gistInfo.Id, gistInfo.UserName);
         }
 
         public static async Task<List<PackageInfo>> GetPackagesFromGist(string id, string user)
