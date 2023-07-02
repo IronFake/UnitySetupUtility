@@ -1,6 +1,8 @@
 # UnitySetupUtility
 Welcome to the Unity Project Setup Utility repository! This repository contains a handy utility tool that allows you to set up your Unity projects quickly and easily using a custom editor window. With this tool, you can create main folders for your project, download manifests from GitHub Gist, and effortlessly add or remove useful packages in your project.
 
+![img.png](Screenshots%2Fimg.png)
+
 # Installation
 To install the Unity Project Setup Utility via Git link, follow these steps:
 
@@ -17,11 +19,23 @@ To install the Unity Project Setup Utility via Git link, follow these steps:
 To get started with the Unity Project Setup Utility, follow these steps:
 
 1) Open your Unity project.
-2) In the Unity editor, navigate to **Window > Project** Setup Window to open the utility's editor window.
-3) The editor window will display several options for setting up your project:
-    - Create Default Folders.
-    - Replace manifest from gist.
-    - List of useful packages.
+2) In the Unity editor, navigate to **Window > Project Setup Window** to open the utility's editor window.
+3) The editor window consists of two tabs: **General** and **Settings**.
+
+### General Tab
+The **General** tab provides options for setting up your project:
+
+- **Create Main Folders:** Clicking this button will create the main folders typically used in a Unity project, such as "Scripts," "Scenes," "Art," etc. You can customize these folders by modifying the **Main Folders** section in the **Settings** tab.
+- **Download Manifest:** The utility will download the **manifest.json** file from the provided URL and place it in the appropriate location in your project. You can specify the default Gist URL in the **Settings** tab.
+
+### Settings Tab
+The **Settings** tab allows you to customize the utility according to your preferences:
+
+- **Main Folders:** Here, you can define the main folder structure for your project. Add, remove, or rename folders as needed. These settings will be used when you click the **Create Main Folders** button in the **General** tab.
+- **Gist for Manifest**: Set the default GitHub Gist URL for the manifest.json file. This URL will be used when you click the Download Manifest button in the **General** tab.
+- **Gist for List of Packages**: Specify the Gist files associated with different packages you frequently use. Enter the Gist file name and the corresponding GitHub Gist URL. This information will be used when you add or remove packages using the utility.
+
+Customize the settings in the Settings tab according to your project requirements.
 
 # Contributions
 Contributions to the Unity Project Setup Utility are welcome! If you find any issues or have suggestions for improvements, please feel free to submit a pull request or open an issue on the repository.
