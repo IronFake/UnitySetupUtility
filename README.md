@@ -10,7 +10,7 @@ To install the Unity Project Setup Utility via Git link, follow these steps:
 2) In the Unity editor, navigate to **Window > Package Manager** to open the Package Manager.
 3) Click on the **+** button in the top-left corner of the Package Manager window.
 4) Choose **Add package from Git URL....**
-5) Enter the following Git URL in the provided field: [https://github.com/IronFake/UnitySetupUtility.git#upm](https://github.com/IronFake/UnitySetupUtility.git#upm).
+5) Enter the following Git URL in the provided field: [https://github.com/IronFake/UnitySetupUtility.git#upm](https://github.com/IronFake/UnitySetupUtility.git#upm)
 6) Click the **Add** button to begin the installation process.
 7) Unity will retrieve the package from the specified Git repository and import it into your project.
 8) Once the import is complete, you will be ready to use the utility.
