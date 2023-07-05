@@ -1,6 +1,6 @@
 {
     "name": "com.storm.unitysetuputility",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "displayName": "UnitySetupUtility",
     "description": "Utility for setting up Unity project",
     "unity": "2019.1",

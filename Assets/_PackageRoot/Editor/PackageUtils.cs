@@ -182,12 +182,11 @@ namespace Storm.UnitySetupUtility.Editor
         
         private static PackageInfo ConvertToPackageInfo(string line)
         {
-            Regex pattern = new Regex("[\": ]");
             var parts = line.Split(new [] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
-            
-            string displayName = pattern.Replace(parts[0], "");
-            string packageName = pattern.Replace(parts[1], "");
-            string url = pattern.Replace(parts[2], "");
+
+            string displayName = parts[0].Replace("\"", "").Replace(" ", "");
+            string packageName = parts[1].Replace("\"", "").Replace(" ", "").Replace(":", "");
+            string url = parts[2].Replace("\"", "").Replace(" ", "");
             
             return new PackageInfo(displayName, packageName, url);
         }
