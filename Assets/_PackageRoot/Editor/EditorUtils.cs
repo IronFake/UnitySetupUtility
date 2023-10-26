@@ -22,5 +22,15 @@ namespace Storm.UnitySetupUtility.Editor
 
             serializedObject.ApplyModifiedProperties();
         }
+        
+        public static void DrawAllProperties(SerializedProperty property)
+        {
+            bool next = property.NextVisible(true);
+            while (next)
+            {
+                EditorGUILayout.PropertyField(property, true);
+                next = property.NextVisible(false);
+            }
+        }
     }
 }

@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 namespace Storm.UnitySetupUtility.Editor
 {
-    public class ProjectSetupSettings : ScriptableObject
+    [Serializable]
+    public class ProjectSetupSettingsModel
     {
         [SerializeField] private string[] _mainFolders;
         [SerializeField] [InspectorName("Gist for Manifest")]  private GistInfo _manifestGist;

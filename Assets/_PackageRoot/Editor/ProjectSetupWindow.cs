@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -11,10 +12,10 @@ namespace Storm.UnitySetupUtility.Editor
 
         private int _selectedTab;
         private string[] _tabNames = { "General", "Settings" };
-        
-        private ProjectSetupSettings _settings;
-        private SerializedObject _settingSerializedObject;
-        
+
+        private ProjectSetupSettingsProvider _settingsProvider;
+        private SerializedObject _settingProviderSerializedObject;
+
         private SerializedObject _windowSerializedObject;
         private Vector2 _scrollPosition;
 
@@ -26,13 +27,14 @@ namespace Storm.UnitySetupUtility.Editor
 
         private void OnEnable()
         {
-            _settings = Resources.Load<ProjectSetupSettings>("ProjectSetupSettings");
-            _settingSerializedObject = new SerializedObject(_settings);
+            _settingsProvider = Resources.Load<ProjectSetupSettingsProvider>("ProjectSetupSettingsProvider");
+  
+            _settingProviderSerializedObject = new SerializedObject(_settingsProvider);
             _windowSerializedObject = new SerializedObject(this);
 
             RequestPackages();
         }
-        
+
         private void OnGUI()
         {
             DrawTabButtons();
@@ -46,7 +48,7 @@ namespace Storm.UnitySetupUtility.Editor
                     break;
             }
         }
-        
+
         private void DrawTabButtons()
         {
             GUILayout.BeginHorizontal();
@@ -61,24 +63,31 @@ namespace Storm.UnitySetupUtility.Editor
 
             GUILayout.EndHorizontal();
         }
-        
+
         private void DrawGeneralTab()
         {
             _windowSerializedObject.Update();
-            
+
             if (GUILayout.Button("Create Main Folders"))
             {
-                Folders.CreateDirectories(_settings.MainFolders);
+                Folders.CreateDirectories(_settingsProvider.Settings.MainFolders);
             }
 
             if (GUILayout.Button("Download manifest"))
             {
                 ReplaceManifest();
             }
-
+            
+            EditorGUILayout.Space(10);
+            if (GUILayout.Button("Refresh packaged"))
+            {
+                RequestPackages();
+            }
+            
+            
             EditorGUILayout.LabelField("Package List:", EditorStyles.boldLabel);
             _scrollPosition = GUILayout.BeginScrollView(_scrollPosition, GUILayout.ExpandHeight(true));
-            
+
             var packageListProperty = _windowSerializedObject.FindProperty("_packagesList");
             for (int i = 0; i < packageListProperty.arraySize; i++)
             {
@@ -96,25 +105,68 @@ namespace Storm.UnitySetupUtility.Editor
             GUILayout.EndScrollView();
             _windowSerializedObject.ApplyModifiedProperties();
         }
-        
+
         private void DrawSettingsTab()
         {
-            EditorUtils.DrawAllProperties(_settingSerializedObject);
+            var settingsProperty = _settingProviderSerializedObject.FindProperty("_settings");
+            EditorUtils.DrawAllProperties(settingsProperty);
+            
+            if (GUILayout.Button("Load from JSON"))
+            {
+                var selectedFilePath = EditorUtility.OpenFilePanel(
+                    "Open JSON File", Application.dataPath, "json");
+
+                if (!string.IsNullOrEmpty(selectedFilePath))
+                {
+                    string jsonContent = File.ReadAllText(selectedFilePath);
+                    _settingsProvider.Settings = ParseJsonToSettings(jsonContent);
+                    _settingProviderSerializedObject.Update();
+                    
+                    RequestPackages();
+                }
+            }
+            
+            if (GUILayout.Button("Save to JSON"))
+            {
+                var selectedFilePath = EditorUtility.SaveFilePanel(
+                    "Save settings", Application.dataPath, "ProjectSetupSettings","json");
+
+                if (selectedFilePath.Length != 0)
+                {
+                    string jsonContent = JsonUtility.ToJson(_settingsProvider.Settings, true);
+                    if (jsonContent != null)
+                    {
+                        File.WriteAllText(selectedFilePath, jsonContent);
+                    }
+                }
+            }
+            
+            _settingProviderSerializedObject.ApplyModifiedProperties();
         }
 
         private async Task RequestPackages()
         {
-            _packagesList = await PackageUtils.GetPackagesFromGist(_settings.PackagesGist);
+            _packagesList = await PackageUtils.GetPackagesFromGist(_settingsProvider.Settings.PackagesGist);
         }
-
 
         private async Task ReplaceManifest()
         {
-            await PackageUtils.ReplaceManifestFromGist(_settings.ManifestGist);
+            await PackageUtils.ReplaceManifestFromGist(_settingsProvider.Settings.ManifestGist);
             foreach (var packageInfo in _packagesList)
             {
                 packageInfo.IsUpdated = false;
             }
+        }
+
+        private ProjectSetupSettingsModel ParseJsonToSettings(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                return new ProjectSetupSettingsModel();
+            }
+
+            ProjectSetupSettingsModel projectSetupSettingsModel = JsonUtility.FromJson<ProjectSetupSettingsModel>(json);
+            return projectSetupSettingsModel;
         }
     }
 }
