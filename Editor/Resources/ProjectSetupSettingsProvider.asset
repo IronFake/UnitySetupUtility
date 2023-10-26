@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f2a07f329eb41f7a75f3ecde54d355d, type: 3}
-  m_Name: ProjectSetupSettings
+  m_Name: ProjectSetupSettingsProvider
   m_EditorClassIdentifier: 
-  _mainFolders:
-  - _Project/Art
-  - _Project/Prefabs
-  - _Project/Scenes
-  - _Project/Scripts
-  _manifestGist:
-    UserName: IronFake
-    Id: e534972ee09ec6f940b3b1a44574d699
-  _packagesGist:
-    UserName: IronFake
-    Id: 07ad9070801dbf3aab326e967683ae32
+  _settings:
+    _mainFolders:
+    - _Project/Art
+    - _Project/Prefabs
+    - _Project/Scenes
+    - _Project/Scripts
+    _manifestGist:
+      UserName: IronFake
+      Id: e534972ee09ec6f940b3b1a44574d699
+    _packagesGist:
+      UserName: IronFake
+      Id: 07ad9070801dbf3aab326e967683ae32

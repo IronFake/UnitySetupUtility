@@ -1,0 +1,16 @@
+{
+  "_mainFolders":[
+    "_Project/Art",
+    "_Project/Prefabs",
+    "_Project/Scenes",
+    "_Project/Scripts"
+  ],
+  "_manifestGist":{
+    "UserName": "IronFake",
+    "Id": "e534972ee09ec6f940b3b1a44574d699"
+  },
+  "_packagesGist":{
+    "UserName": "IronFake",
+    "Id": "07ad9070801dbf3aab326e967683ae32"
+  }
+}
