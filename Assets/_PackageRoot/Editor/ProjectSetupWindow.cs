@@ -79,7 +79,7 @@ namespace Storm.UnitySetupUtility.Editor
             }
             
             EditorGUILayout.Space(10);
-            if (GUILayout.Button("Refresh packaged"))
+            if (GUILayout.Button("Refresh packages"))
             {
                 RequestPackages();
             }
